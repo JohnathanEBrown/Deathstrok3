@@ -1,2 +1,3 @@
 # Deathstrok3
-Deathstroke is a keylogger for Linux systems it edits the crontab file so it runs continuously and starts as the system boots.  
+#This code DOES NOT promote or encourage any illegal activities! The content in this document is provided solely for educational purposes.
+Deathstrok3 is a keylogger built for Linux systems. Deathstrok3 records a user’s keystrokes and sends the logs to the attacker’s email. Additionally, Deathstrok3 edits the crontab file, allowing it to run continuously in the background.
