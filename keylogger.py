@@ -4,6 +4,13 @@
 from pynput.keyboard import Key, Listener
 from crontab import CronTab
 
+print('''________                 __  .__              __                 __    
+\______ \   ____ _____ _/  |_|  |__   _______/  |________  ____ |  | __\_____  \ 
+ |    |  \_/ __ \\__  \\   __\  |  \ /  ___/\   __\_  __ \/  _ \|  |/ /  _(__  < 
+ |    `   \  ___/ / __ \|  | |   Y  \\___ \  |  |  |  | \(  <_> )    <  /       \
+/_______  /\___  >____  /__| |___|  /____  > |__|  |__|   \____/|__|_ \/______  /
+        \/     \/     \/          \/     \/                          \/       \/''')
+
 count = 0
 keys = []
 #Without this Error will coccur if we try to call a boolean Value as a function
