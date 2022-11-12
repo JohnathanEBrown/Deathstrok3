@@ -1,5 +1,3 @@
-#Install pynput for monitoring keyboard: pip install pynput
-
 #Import Key and Listener module
 from pynput.keyboard import Key, Listener
 from crontab import CronTab
