@@ -59,6 +59,7 @@ def cron():
     job.every_reboot()
     my_cron.write()
   
+install_packages()
 cron()
     
 #Will continously loop through until broken
