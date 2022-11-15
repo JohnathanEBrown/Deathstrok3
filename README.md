@@ -4,4 +4,3 @@ Deathstrok3 is a keylogger built for Linux systems. Deathstrok3 records a userâ€
 
 # Prerequisites: 
 Install pynput: pip install pynput &
-Install crontab: pip install python-crontab
